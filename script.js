@@ -1,246 +1,52 @@
-// Particle System
-class ParticleSystem {
-    constructor(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.particles = [];
-        this.shootingStars = [];
-        this.mouse = { x: 0, y: 0 };
-        
-        this.init();
-        this.bindEvents();
-        this.animate();
-    }
-    
-    init() {
-        this.resizeCanvas();
-        this.createParticles();
-    }
-    
-    resizeCanvas() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-    }
-    
-    createParticles() {
-        this.particles = [];
-        const particleCount = Math.min(150, Math.floor((this.canvas.width * this.canvas.height) / 10000));
-        
-        for (let i = 0; i < particleCount; i++) {
-            this.particles.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                size: Math.random() * 2 + 0.5,
-                opacity: Math.random() * 0.8 + 0.2,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                twinkle: Math.random() * Math.PI * 2
-            });
-        }
-    }
-    
-    createShootingStar() {
-        const side = Math.random();
-        let x, y, angle;
-        
-        if (side < 0.5) {
-            // From top-right (most common)
-            x = this.canvas.width + 50;
-            y = Math.random() * this.canvas.height * 0.3;
-            angle = Math.PI * 3/4 + (Math.random() - 0.5) * 0.3;
-        } else {
-            // From top
-            x = Math.random() * this.canvas.width;
-            y = -50;
-            angle = Math.PI / 2 + (Math.random() - 0.5) * 0.5;
-        }
-        
-        return {
-            x,
-            y,
-            length: Math.random() * 100 + 50,
-            angle,
-            speed: Math.random() * 4 + 3,
-            opacity: 1,
-            life: 1
-        };
-    }
-    
-    drawParticle(particle) {
-        this.ctx.save();
-        
-        // Twinkling effect
-        const twinkleOpacity = particle.opacity * (0.5 + 0.5 * Math.sin(particle.twinkle));
-        this.ctx.globalAlpha = twinkleOpacity;
-        
-        // Glow effect
-        this.ctx.shadowBlur = particle.size * 3;
-        this.ctx.shadowColor = '#ffffff';
-        
-        this.ctx.fillStyle = '#ffffff';
-        this.ctx.beginPath();
-        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        this.ctx.fill();
-        
-        this.ctx.restore();
-    }
-    
-    drawShootingStar(star) {
-        this.ctx.save();
-        this.ctx.globalAlpha = star.opacity;
-        
-        const gradient = this.ctx.createLinearGradient(
-            star.x,
-            star.y,
-            star.x - Math.cos(star.angle) * star.length,
-            star.y - Math.sin(star.angle) * star.length
-        );
-        
-        gradient.addColorStop(0, '#ffffff');
-        gradient.addColorStop(0.3, '#88ccff');
-        gradient.addColorStop(0.7, '#4488ff');
-        gradient.addColorStop(1, 'transparent');
-        
-        this.ctx.strokeStyle = gradient;
-        this.ctx.lineWidth = 3;
-        this.ctx.lineCap = 'round';
-        
-        // Main trail
-        this.ctx.beginPath();
-        this.ctx.moveTo(star.x, star.y);
-        this.ctx.lineTo(
-            star.x - Math.cos(star.angle) * star.length,
-            star.y - Math.sin(star.angle) * star.length
-        );
-        this.ctx.stroke();
-        
-        // Bright core
-        this.ctx.shadowBlur = 20;
-        this.ctx.shadowColor = '#ffffff';
-        this.ctx.lineWidth = 1;
-        this.ctx.beginPath();
-        this.ctx.moveTo(star.x, star.y);
-        this.ctx.lineTo(
-            star.x - Math.cos(star.angle) * star.length * 0.3,
-            star.y - Math.sin(star.angle) * star.length * 0.3
-        );
-        this.ctx.stroke();
-        
-        this.ctx.restore();
-    }
-    
-    updateParticles() {
-        this.particles.forEach(particle => {
-            // Movement
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            
-            // Twinkling
-            particle.twinkle += 0.02;
-            
-            // Mouse interaction
-            const dx = this.mouse.x - particle.x;
-            const dy = this.mouse.y - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 100) {
-                const force = (100 - distance) / 100;
-                particle.vx += (dx / distance) * force * 0.01;
-                particle.vy += (dy / distance) * force * 0.01;
-            }
-            
-            // Damping
-            particle.vx *= 0.99;
-            particle.vy *= 0.99;
-            
-            // Boundary wrapping
-            if (particle.x < 0) particle.x = this.canvas.width;
-            if (particle.x > this.canvas.width) particle.x = 0;
-            if (particle.y < 0) particle.y = this.canvas.height;
-            if (particle.y > this.canvas.height) particle.y = 0;
-        });
-    }
-    
-    updateShootingStars() {
-        // Update existing shooting stars
-        this.shootingStars = this.shootingStars.filter(star => {
-            star.x += Math.cos(star.angle) * star.speed;
-            star.y += Math.sin(star.angle) * star.speed;
-            star.life -= 0.01;
-            star.opacity = star.life;
-            
-            return star.life > 0 && 
-                   star.x > -star.length && 
-                   star.x < this.canvas.width + star.length &&
-                   star.y > -star.length && 
-                   star.y < this.canvas.height + star.length;
-        });
-        
-        // Create new shooting stars
-        if (Math.random() < 0.003) {
-            this.shootingStars.push(this.createShootingStar());
-        }
-    }
-    
-    bindEvents() {
-        window.addEventListener('resize', () => {
-            this.resizeCanvas();
-            this.createParticles();
-        });
-        
-        window.addEventListener('mousemove', (e) => {
-            this.mouse.x = e.clientX;
-            this.mouse.y = e.clientY;
-        });
-    }
-    
-    animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        this.updateParticles();
-        this.updateShootingStars();
-        
-        // Draw particles
-        this.particles.forEach(particle => this.drawParticle(particle));
-        
-        // Draw shooting stars
-        this.shootingStars.forEach(star => this.drawShootingStar(star));
-        
-        requestAnimationFrame(() => this.animate());
-    }
-}
-
-// Smooth scrolling
-function smoothScroll() {
+// Smooth scrolling for navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth scrolling to all links with anchors
     const links = document.querySelectorAll('a[href^="#"]');
-    
+
     links.forEach(link => {
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            const targetId = link.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                const offsetTop = targetElement.offsetTop - 80; // Account for navbar height
-                
+
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            if (targetSection) {
+                const navHeight = document.querySelector('.navbar').offsetHeight;
+                const targetPosition = targetSection.offsetTop - navHeight;
+
                 window.scrollTo({
-                    top: offsetTop,
+                    top: targetPosition,
                     behavior: 'smooth'
                 });
             }
         });
     });
-}
 
-// Scroll animations
-function initScrollAnimations() {
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        // Add/remove background opacity based on scroll
+        if (scrollTop > 50) {
+            navbar.style.background = 'rgba(13, 13, 21, 0.95)';
+        } else {
+            navbar.style.background = 'rgba(13, 13, 21, 0.8)';
+        }
+
+        lastScrollTop = scrollTop;
+    });
+
+    // Intersection Observer for animations
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
     };
-    
-    const observer = new IntersectionObserver((entries) => {
+
+    const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
@@ -248,235 +54,289 @@ function initScrollAnimations() {
             }
         });
     }, observerOptions);
-    
-    // Observe elements for animation
-    const animatedElements = document.querySelectorAll('.plan-card, .gallery-item, .feature');
-    animatedElements.forEach((el, index) => {
+
+    // Observe elements for scroll animations
+    const animateElements = document.querySelectorAll('.plan-card, .gallery-item, .feature');
+    animateElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
-        el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
-}
 
-// Navbar scroll effect
-function initNavbarScroll() {
-    const navbar = document.querySelector('.navbar');
-    let lastScroll = 0;
-    
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 100) {
-            navbar.style.background = 'rgba(13, 13, 21, 0.95)';
-            navbar.style.backdropFilter = 'blur(20px)';
-        } else {
-            navbar.style.background = 'rgba(13, 13, 21, 0.8)';
-            navbar.style.backdropFilter = 'blur(10px)';
-        }
-        
-        lastScroll = currentScroll;
-    });
-}
-
-// Button hover effects
-function initButtonEffects() {
-    const buttons = document.querySelectorAll('.btn, .plan-btn, .buy-btn');
-    
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px) scale(1.05)';
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-        
-        button.addEventListener('mousedown', function() {
-            this.style.transform = 'translateY(0) scale(0.95)';
-        });
-        
-        button.addEventListener('mouseup', function() {
-            this.style.transform = 'translateY(-2px) scale(1.05)';
-        });
-    });
-}
-
-// Gallery hover effects
-function initGalleryEffects() {
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    
-    galleryItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
-            this.style.zIndex = '10';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-            this.style.zIndex = '1';
-        });
-    });
-}
-
-// Plan card hover effects
-function initPlanEffects() {
-    const planCards = document.querySelectorAll('.plan-card');
-    
-    planCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px)';
-            this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.4)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
-        });
-    });
-}
-
-// Mobile menu
-function initMobileMenu() {
+    // Mobile menu toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
-    let isMenuOpen = false;
-    
+
     if (mobileMenuBtn && navLinks) {
-        mobileMenuBtn.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            
-            if (isMenuOpen) {
-                navLinks.style.display = 'flex';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.right = '0';
-                navLinks.style.background = 'rgba(13, 13, 21, 0.95)';
-                navLinks.style.padding = '1rem';
-                navLinks.style.backdropFilter = 'blur(20px)';
-                mobileMenuBtn.textContent = '✕';
-            } else {
-                navLinks.style.display = 'none';
-                mobileMenuBtn.textContent = '☰';
-            }
-        });
-        
-        // Close menu when clicking on a link
-        const navLinkElements = navLinks.querySelectorAll('.nav-link');
-        navLinkElements.forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    navLinks.style.display = 'none';
-                    mobileMenuBtn.textContent = '☰';
-                    isMenuOpen = false;
-                }
-            });
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
         });
     }
-}
 
-// Floating animation for blocks
-function initFloatingBlocks() {
-    const blocks = document.querySelectorAll('.block');
-    
-    blocks.forEach((block, index) => {
-        // Add random rotation and movement
-        setInterval(() => {
-            const randomX = (Math.random() - 0.5) * 20;
-            const randomY = (Math.random() - 0.5) * 20;
-            const randomRotate = (Math.random() - 0.5) * 10;
-            
-            block.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
-        }, 3000 + index * 1000);
+    // Plan card hover effects
+    const planCards = document.querySelectorAll('.plan-card');
+    planCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Gallery item click effects
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Add click animation
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+
+            // You can add modal or lightbox functionality here
+            console.log('Gallery item clicked:', this.querySelector('h4').textContent);
+        });
+    });
+
+    // Buy button interactions
+    const buyButtons = document.querySelectorAll('.plan-btn, .buy-btn');
+    buyButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+
+            // Simulate purchase flow
+            showPurchaseModal(this);
+        });
+    });
+
+    // Add CSS for ripple effect
+    const style = document.createElement('style');
+    style.textContent = `
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .plan-btn, .buy-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links.active {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(13, 13, 21, 0.95);
+                flex-direction: column;
+                padding: 1rem;
+                backdrop-filter: blur(10px);
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Parallax effect for floating blocks
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const blocks = document.querySelectorAll('.block');
+
+        blocks.forEach((block, index) => {
+            const speed = 0.5 + (index * 0.2);
+            const yPos = scrolled * speed;
+            block.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.1}deg)`;
+        });
+    });
+
+    // Typing effect for hero title (optional enhancement)
+    function typeWriter(element, text, speed = 100) {
+        let i = 0;
+        element.innerHTML = '';
+
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+
+        type();
+    }
+
+    // You can uncomment this to add a typing effect to the hero title
+    // const heroTitle = document.querySelector('.hero-title');
+    // if (heroTitle) {
+    //     typeWriter(heroTitle, 'Ghostline', 150);
+    // }
+});
+
+// Purchase modal function
+function showPurchaseModal(button) {
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.className = 'purchase-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Purchase Confirmation</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to purchase a Ghostline plan.</p>
+                <p>This is a demo - no actual purchase will be made.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Cancel</button>
+                <button class="btn btn-primary confirm-purchase">Confirm</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Add modal styles
+    const modalStyle = document.createElement('style');
+    modalStyle.textContent = `
+        .purchase-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .modal-content {
+            background: #1e1635;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.8);
+            animation: scaleIn 0.3s ease forwards;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: #cdccd5;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #cdccd5;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            color: #888;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+            }
+        }
+    `;
+    document.head.appendChild(modalStyle);
+
+    // Close modal events
+    const closeButtons = modal.querySelectorAll('.close-modal');
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modal.remove();
+            modalStyle.remove();
+        });
+    });
+
+    // Click outside to close
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+            modalStyle.remove();
+        }
+    });
+
+    // Confirm purchase
+    const confirmBtn = modal.querySelector('.confirm-purchase');
+    confirmBtn.addEventListener('click', () => {
+        alert('Thank you for your interest! This is a demo website.');
+        modal.remove();
+        modalStyle.remove();
     });
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize particle system
-    const canvas = document.getElementById('particles-canvas');
-    if (canvas) {
-        new ParticleSystem(canvas);
-    }
-    
-    // Initialize all features
-    smoothScroll();
-    initScrollAnimations();
-    initNavbarScroll();
-    initButtonEffects();
-    initGalleryEffects();
-    initPlanEffects();
-    initMobileMenu();
-    initFloatingBlocks();
-    
-    // Add loading animation
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
+// Add some console easter eggs for developers
+console.log('%cGhostline Clone', 'color: #4b39b3; font-size: 24px; font-weight: bold;');
+console.log('%cWebsite successfully cloned! 🎮', 'color: #4a89d1; font-size: 14px;');
+console.log('Original: https://ghostline-client-1-0.vercel.app/');
+
+// Performance monitoring
+window.addEventListener('load', function() {
+    const loadTime = performance.now();
+    console.log(`%cPage loaded in ${Math.round(loadTime)}ms`, 'color: #4ade80;');
 });
-
-// Performance optimization
-let ticking = false;
-
-function updateOnScroll() {
-    // Parallax effect for hero background
-    const hero = document.querySelector('.hero');
-    const scrolled = window.pageYOffset;
-    const rate = scrolled * -0.5;
-    
-    if (hero) {
-        hero.style.transform = `translateY(${rate}px)`;
-    }
-    
-    ticking = false;
-}
-
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        requestAnimationFrame(updateOnScroll);
-        ticking = true;
-    }
-});
-
-// Easter egg - Konami code
-let konamiCode = [];
-const konamiSequence = [
-    'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-    'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
-    'KeyB', 'KeyA'
-];
-
-document.addEventListener('keydown', (e) => {
-    konamiCode.push(e.code);
-    
-    if (konamiCode.length > konamiSequence.length) {
-        konamiCode.shift();
-    }
-    
-    if (konamiCode.length === konamiSequence.length && 
-        konamiCode.every((key, index) => key === konamiSequence[index])) {
-        
-        // Easter egg activated
-        document.body.style.animation = 'hue-rotate 2s infinite linear';
-        setTimeout(() => {
-            document.body.style.animation = '';
-        }, 10000);
-        
-        konamiCode = [];
-    }
-});
-
-// Add CSS for Easter egg
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes hue-rotate {
-        from { filter: hue-rotate(0deg); }
-        to { filter: hue-rotate(360deg); }
-    }
-`;
-document.head.appendChild(style);
