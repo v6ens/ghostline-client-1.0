@@ -147,15 +147,16 @@ html {
 .hero-title {
     font-size: 5rem;
     font-weight: 700;
-    color: transparent !important;
-    background: linear-gradient(90deg, #fff 0%, #ccc 15%, #666 65%, #222 100%) !important;
-    background-clip: text !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
+    color: #fff !important;
+    text-shadow: 0 0 10px rgba(128, 128, 128, 0.5),
+                 0 0 20px rgba(128, 128, 128, 0.3),
+                 0 0 30px rgba(128, 128, 128, 0.2);
     margin-bottom: 1rem;
     animation: slideUp 1s ease-out;
-    text-shadow: 0 0 1px #fff;
     filter: none !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
 }
 
 .hero-subtitle {
