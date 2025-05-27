@@ -173,7 +173,7 @@ html {
 .btn,
 .btn-primary,
 .btn-secondary {
-    border-radius: 999px;
+    border-radius: 999px !important;
 }
 
 .btn {
