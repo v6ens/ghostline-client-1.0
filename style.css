@@ -68,12 +68,13 @@ html {
 }
 
 .logo-text {
+    color: #fff !important;
     transition: all 0.3s ease;
 }
 
 .logo:hover .logo-text {
-    color: #fff;
-    text-shadow: 0 0 8px #fff, 0 0 16px #fff;
+    color: #fff !important;
+    text-shadow: 0 0 16px #fff, 0 0 32px #fff;
     background: none;
     -webkit-background-clip: initial;
     -webkit-text-fill-color: initial;
@@ -93,8 +94,8 @@ html {
 }
 
 .nav-link:hover {
-    color: #fff;
-    text-shadow: 0 0 8px #fff, 0 0 16px #fff;
+    color: #fff !important;
+    text-shadow: 0 0 16px #fff, 0 0 32px #fff;
 }
 
 .buy-btn {
