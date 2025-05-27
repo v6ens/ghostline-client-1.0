@@ -148,13 +148,13 @@ html {
     font-size: 5rem;
     font-weight: 700;
     color: transparent !important;
-    background: linear-gradient(90deg, #fff 0%, #bbb 50%, #222 100%) !important;
+    background: linear-gradient(90deg, #fff 0%, #a0a0a0 40%, #333 80%, #000 100%) !important;
     background-clip: text !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     margin-bottom: 1rem;
     animation: slideUp 1s ease-out;
-    text-shadow: 0 0 2px #fff, 0 0 4px #fff;
+    text-shadow: 0 0 1px #fff;
     filter: none !important;
 }
 
