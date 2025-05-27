@@ -154,7 +154,7 @@ html {
     -webkit-text-fill-color: transparent !important;
     margin-bottom: 1rem;
     animation: slideUp 1s ease-out;
-    text-shadow: 0 0 6px #fff, 0 0 12px #fff;
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff;
     filter: none !important;
 }
 
