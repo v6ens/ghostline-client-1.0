@@ -112,7 +112,7 @@ html {
 
 .buy-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 24px 6px #fff;
+    box-shadow: 0 0 16px 4px rgba(255, 255, 255, 0.3);
     border-color: #fff;
 }
 
@@ -332,7 +332,7 @@ html {
 
 .plan-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 24px 6px #fff;
+    box-shadow: 0 0 16px 4px rgba(255, 255, 255, 0.3);
     border-color: #fff;
 }
 
