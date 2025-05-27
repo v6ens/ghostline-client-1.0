@@ -163,6 +163,8 @@ html {
     color: #cdccd5;
     margin-bottom: 2rem;
     animation: slideUp 1s ease-out 0.2s both;
+    font-weight: 600;
+    text-shadow: 0 0 6px #fff, 0 0 2px #fff;
 }
 
 .hero-buttons {
