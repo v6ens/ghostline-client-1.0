@@ -1,585 +1,246 @@
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    background: #000000;
-    color: #cdccd5;
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Navigation */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #000;
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #cdccd5;
-    font-weight: 600;
-    font-size: 1.2rem;
-}
-
-.logo-img {
-    width: 36px;
-    height: 36px;
-    margin-right: 12px;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
-}
-
-.logo:hover .logo-img {
-    transform: scale(1.1) rotate(5deg);
-    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
-}
-
-.logo-text {
-    color: #fff !important;
-    transition: all 0.3s ease;
-}
-
-.logo:hover .logo-text {
-    color: #fff !important;
-    text-shadow: 0 0 16px #fff, 0 0 32px #fff;
-    background: none;
-    -webkit-background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
-
-.nav-links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-}
-
-.nav-link {
-    color: #cdccd5;
-    text-decoration: none;
-    font-weight: 400;
-    transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #fff !important;
-    text-shadow: 0 0 16px #fff, 0 0 32px #fff;
-}
-
-.buy-btn {
-    background: #000;
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    border: 2px solid #fff;
-    box-shadow: 0 0 12px 2px #fff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
-}
-
-.buy-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 24px 6px #fff;
-    border-color: #fff;
-}
-
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    color: #cdccd5;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-/* Hero Section */
-.hero {
-    min-height: 100vh;
-    background: #000000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-content {
-    z-index: 2;
-    max-width: 800px;
-    padding: 0 20px;
-}
-
-.hero-title {
-    font-size: 5rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 1rem;
-    animation: slideUp 1s ease-out;
-    text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 2px #fff;
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
-}
-
-.hero-subtitle {
-    font-size: 1.2rem;
-    color: #cdccd5;
-    margin-bottom: 2rem;
-    animation: slideUp 1s ease-out 0.2s both;
-    text-shadow: 0 0 2px #fff, 0 0 4px #fff;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 2rem;
-    animation: slideUp 1s ease-out 0.4s both;
-}
-
-.btn {
-    padding: 12px 24px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #4b39b3, #4a89d1);
-    color: white;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(75, 57, 179, 0.3);
-}
-
-.btn-secondary {
-    background: transparent;
-    color: #cdccd5;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.btn-secondary:hover {
-    border-color: #4b39b3;
-    color: #4b39b3;
-    transform: translateY(-2px);
-}
-
-.watch-link {
-    color: #4a89d1;
-    text-decoration: none;
-    font-weight: 500;
-    animation: slideUp 1s ease-out 0.6s both;
-}
-
-.watch-link:hover {
-    text-decoration: underline;
-}
-
-.scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: bounce 2s infinite;
-}
-
-.chevron-down {
-    font-size: 2rem;
-    color: #4a89d1;
-    transform: rotate(90deg);
-}
-
-
-
-/* Plans Section */
-.plans {
-    padding: 100px 0;
-    background: #000000;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.section-title {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #cdccd5;
-    margin-bottom: 1rem;
-}
-
-.section-subtitle {
-    font-size: 1.1rem;
-    color: #888;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.plans-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.plan-card {
-    background: rgba(30, 22, 53, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.plan-card:hover {
-    transform: translateY(-5px);
-    border-color: #ffffff;
-    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
-}
-
-.plan-header {
-    margin-bottom: 2rem;
-}
-
-.plan-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #cdccd5;
-    margin-bottom: 1rem;
-}
-
-.plan-price {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #4b39b3;
-    margin-bottom: 0.5rem;
-}
-
-.plan-note {
-    color: #888;
-    font-size: 0.9rem;
-}
-
-.plan-btn {
-    width: 100%;
-    background: #000;
-    color: #fff;
-    border: 2px solid #fff;
-    box-shadow: 0 0 12px 2px #fff;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-bottom: 2rem;
-    transition: all 0.3s ease;
-}
-
-.plan-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 24px 6px #fff;
-    border-color: #fff;
-}
-
-.plan-features {
-    list-style: none;
-    text-align: left;
-}
-
-.plan-features li {
-    padding: 0.5rem 0;
-    display: flex;
-    align-items: center;
-    color: #cdccd5;
-}
-
-.check {
-    color: #4ade80;
-    margin-right: 0.5rem;
-    font-weight: bold;
-}
-
-.bullet {
-    color: #4a89d1;
-    margin-right: 0.5rem;
-}
-
-.plans-note {
-    text-align: center;
-    color: #888;
-    font-size: 0.9rem;
-}
-
-/* Showcase Section */
-.showcase {
-    padding: 100px 0;
-    background: #000000;
-}
-
-.showcase-subtitle {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #4a89d1;
-    margin-bottom: 3rem;
-}
-
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.gallery-item {
-    height: 200px;
-    background: rgba(30, 22, 53, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.gallery-item:hover {
-    transform: translateY(-5px);
-    border-color: #4b39b3;
-    box-shadow: 0 20px 40px rgba(75, 57, 179, 0.1);
-}
-
-.gallery-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-    padding: 2rem 1.5rem 1.5rem;
-    color: white;
-}
-
-.gallery-overlay h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.video .gallery-overlay {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background: rgba(0, 0, 0, 0.6);
-    height: 100%;
-}
-
-.play-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #4b39b3;
-}
-
-/* Features Section */
-.features {
-    padding: 100px 0;
-    background: #000000;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 4rem;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.feature {
-    text-align: center;
-}
-
-.feature h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #cdccd5;
-    margin-bottom: 1rem;
-}
-
-.feature p {
-    color: #888;
-    line-height: 1.6;
-}
-
-/* Footer */
-.footer {
-    background: #000000;
-    padding: 60px 0 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.footer-column h4 {
-    color: #cdccd5;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-
-.footer-column ul {
-    list-style: none;
-}
-
-.footer-column ul li {
-    margin-bottom: 0.5rem;
-}
-
-.footer-column ul li a {
-    color: #888;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-column ul li a:hover {
-    color: #4b39b3;
-}
-
-.footer-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #cdccd5;
-    font-weight: 600;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-}
-
-.footer-logo-img {
-    width: 28px;
-    height: 28px;
-    margin-right: 10px;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
-    transition: all 0.3s ease;
-}
-
-.footer-logo:hover .footer-logo-img {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
-}
-
-.footer-logo:hover .logo-text {
-    color: #4b39b3;
-}
-
-.footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #888;
-    font-size: 0.9rem;
-}
-
-/* Animations */
-
-@keyframes slideUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateX(-50%) translateY(0);
-    }
-    40% {
-        transform: translateX(-50%) translateY(-10px);
-    }
-    60% {
-        transform: translateX(-50%) translateY(-5px);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
-
-    .mobile-menu-btn {
-        display: block;
-    }
-
-    .hero-title {
-        font-size: 3rem;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .section-title {
-        font-size: 2rem;
-    }
-
-    .plans-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-}
-
-    .features-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghostline - Minecraft Ghost Client</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="https://i.pinimg.com/736x/bb/ea/7a/bbea7ad2a7c3d00a6c8cf16c735bf487.jpg" alt="Ghostline Logo" class="logo-img">
+                <span class="logo-text">Ghostline</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#plans" class="nav-link">Plans</a>
+                <a href="#showcase" class="nav-link">Showcase</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#" class="nav-link">Forum</a>
+                <a href="#" class="nav-link">Log in</a>
+            </div>
+
+            <a href="#plans" class="buy-btn">Buy now</a>
+
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Ghostline</h1>
+            <p class="hero-subtitle">
+               Enhance your Minecraft experience with Ghostline.
+               It has completely undetectable ghost features and amazing UI.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#showcase" class="btn btn-primary">Learn more</a>
+                <a href="#plans" class="btn btn-secondary">Buy now</a>
+            </div>
+
+            <a href="#showcase" class="watch-link">Watch videos</a>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="chevron-down">‹</div>
+        </div>
+
+
+    </section>
+
+    <!-- Plans Section -->
+    <section class="plans" id="plans">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Plans</h2>
+                <p class="section-subtitle">Choose the plan that fits you the most.</p>
+            </div>
+
+            <div class="plans-grid">
+                <div class="plan-card monthly">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Monthly</h3>
+                        <div class="plan-price">$15</div>
+                        <div class="plan-note">Standard Version</div>
+                    </div>
+
+                    <button class="plan-btn">Buy now</button>
+
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> Feather Client Support</li>
+                        <li><span class="check">✓</span> Alpine Client Support</li>
+                        <li><span class="check">✓</span> Any Launcher Support</li>
+                        <li><span class="check">✓</span> JVM Injection</li>
+                        <li><span class="check">✓</span> Minecraft 1.20 / 1.21+</li>
+                    </ul>
+                </div>
+
+                <div class="plan-card lifetime">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Lifetime</h3>
+                        <div class="plan-price">$25</div>
+                        <div class="plan-note">Standard Version</div>
+                    </div>
+
+                    <button class="plan-btn">Buy now</button>
+
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> Feather Client Support</li>
+                        <li><span class="check">✓</span> Alpine Client Support</li>
+                        <li><span class="check">✓</span> Any Launcher Support</li>
+                        <li><span class="check">✓</span> JVM Injection</li>
+                        <li><span class="check">✓</span> Minecraft 1.20 / 1.21+</li>
+                    </ul>
+                </div>
+
+
+
+                <div class="plan-card beta">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Beta</h3>
+                        <div class="plan-price">$20</div>
+                        <div class="plan-note">Beta Upgrade Plan</div>
+                    </div>
+
+                    <button class="plan-btn">Buy now</button>
+
+                    <ul class="plan-features">
+                        <li><span class="bullet">•</span> You need to own another plan to upgrade to beta</li>
+                        <li><span class="bullet">•</span> Gets updates earlier</li>
+                        <li><span class="bullet">•</span> Gets modules earlier that are beta only</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="plans-note">Supports any Windows 10/11 version</div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section class="showcase" id="showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Showcase</h2>
+                <p class="section-subtitle">Videos, Pictures and Showcases about the Client.</p>
+            </div>
+
+            <div class="showcase-subtitle">UI Showcase</div>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-overlay">
+                        <h4>Inventory Management</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-overlay">
+                        <h4>Panel Interface</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-overlay">
+                        <h4>Ingame Interface</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-overlay">
+                        <h4>Ingame HUD Management</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-overlay">
+                        <h4>Keybind Management</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item video">
+                    <div class="gallery-overlay">
+                        <div class="play-icon">▶</div>
+                        <h4>Showcase</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Features</h2>
+                <p class="section-subtitle">Ghostline delivers the best Features possible, better then any Ghost Client.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature">
+                    <h3>Injects without any file</h3>
+                    <p>You dont need to download anything, it just works by magic :)</p>
+                </div>
+
+                <div class="feature">
+                    <h3>Feature Rich</h3>
+                    <p>Lots of features have never been done by any other client.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <a href="#" class="footer-logo">
+                        <img src="images/ghost-logo.png" alt="Ghostline Logo" class="footer-logo-img">
+                        <span class="logo-text">Ghostline</span>
+                    </a>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Imprint</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#plans">Plans</a></li>
+                        <li><a href="#showcase">Showcase</a></li>
+                        <li><a href="#features">Features</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#">YouTube</a></li>
+                        <li><a href="#">Forum</a></li>
+                        <li><a href="#">Log in</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>Copyright 2025, HAZE. All Rights Reserved.</div>
+                <div>Designed by Backify</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
