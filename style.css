@@ -29,7 +29,7 @@ html {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(13, 13, 21, 0.8);
+    background: #000;
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 1rem 0;
@@ -96,18 +96,21 @@ html {
 }
 
 .buy-btn {
-    background: linear-gradient(135deg, #4b39b3, #4a89d1);
-    color: white;
+    background: #000;
+    color: #fff;
     padding: 8px 16px;
     border-radius: 6px;
     text-decoration: none;
     font-weight: 500;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #fff;
+    box-shadow: 0 0 12px 2px #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
 }
 
 .buy-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(75, 57, 179, 0.3);
+    box-shadow: 0 0 24px 6px #fff;
+    border-color: #fff;
 }
 
 .mobile-menu-btn {
@@ -298,9 +301,10 @@ html {
 
 .plan-btn {
     width: 100%;
-    background: linear-gradient(135deg, #4b39b3, #4a89d1);
-    color: white;
-    border: none;
+    background: #000;
+    color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 0 12px 2px #fff;
     padding: 12px;
     border-radius: 8px;
     font-weight: 500;
@@ -311,7 +315,8 @@ html {
 
 .plan-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(75, 57, 179, 0.3);
+    box-shadow: 0 0 24px 6px #fff;
+    border-color: #fff;
 }
 
 .plan-features {
@@ -578,6 +583,3 @@ html {
         gap: 1rem;
         text-align: center;
     }
-
-
-}
