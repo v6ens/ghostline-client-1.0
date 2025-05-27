@@ -30,11 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         // Add/remove background opacity based on scroll
-        if (scrollTop > 50) {
-            navbar.style.background = 'rgba(13, 13, 21, 0.95)';
-        } else {
-            navbar.style.background = 'rgba(13, 13, 21, 0.8)';
-        }
+        navbar.style.background = '#000';
 
         lastScrollTop = scrollTop;
     });
