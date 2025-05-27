@@ -147,7 +147,11 @@ html {
 .hero-title {
     font-size: 5rem;
     font-weight: 700;
-    color: #ffffff;
+    color: transparent;
+    background: linear-gradient(180deg, #fff 0%, #bbb 60%, #000 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
     animation: slideUp 1s ease-out;
     text-shadow: 0 0 12px #fff, 0 0 24px #fff, 0 0 2px #fff;
