@@ -196,15 +196,12 @@ html {
     box-shadow: 0 0 12px 2px #fff;
 }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(75, 57, 179, 0.3);
-}
-
+.btn-primary:hover,
 .btn-secondary:hover {
-    border-color: #4b39b3;
-    color: #4b39b3;
-    transform: translateY(-2px);
+    color: #fff !important;
+    background: #000;
+    border: 2px solid #fff;
+    box-shadow: 0 0 24px 6px #fff;
 }
 
 .watch-link {
