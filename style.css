@@ -102,7 +102,7 @@ html {
     background: #000;
     color: #fff;
     padding: 8px 16px;
-    border-radius: 6px;
+    border-radius: 999px;
     text-decoration: none;
     font-weight: 500;
     border: 2px solid #fff;
@@ -168,6 +168,12 @@ html {
     justify-content: center;
     margin-bottom: 2rem;
     animation: slideUp 1s ease-out 0.4s both;
+}
+
+.btn,
+.btn-primary,
+.btn-secondary {
+    border-radius: 999px;
 }
 
 .btn {
