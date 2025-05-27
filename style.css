@@ -72,10 +72,11 @@ html {
 }
 
 .logo:hover .logo-text {
-    background: linear-gradient(135deg, #4b39b3, #4a89d1);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #fff;
+    text-shadow: 0 0 8px #fff, 0 0 16px #fff;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
 }
 
 .nav-links {
@@ -92,7 +93,8 @@ html {
 }
 
 .nav-link:hover {
-    color: #4b39b3;
+    color: #fff;
+    text-shadow: 0 0 8px #fff, 0 0 16px #fff;
 }
 
 .buy-btn {
